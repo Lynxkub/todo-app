@@ -11,30 +11,32 @@ btn.addEventListener("click", function(e){
     ul.appendChild(newTodo);
     inputText.value="";
     let ulText = ul.innerHTML;
-    localStorage.setItem("newTodo", ulText);
-    
+    localStorage.setItem("newTodo",ulText);
+  
     
     
 });
 
 ul.addEventListener("click", function(e){
+
     const box=document.querySelectorAll(".checkbox");
     const doneLi=document.querySelector("#createdLi");
     if(e.target.className === "newbutton"){
         e.target.parentElement.remove();
+        let ulText=ul.innerHTML;
+        localStorage.setItem("newTodo", ulText); 
     }
-    // Need to remove information store in local storage when the remove button is clicked. 
-    // I think I'm supposed to write logic that is able to open local storage when the button is clicked and check to see if the local storage contains the parent element of the button clicked
-    // and remove it from local storage
     if (e.target.className=== "checkbox"){
         for (let i=0; i<box.length; i++){
             if(e.target.checked ===true){
                 e.target.parentElement.className = "crossout";
-              
+                let ulText=ul.innerHTML;
+                localStorage.setItem("newTodo", ulText)
             }else{
                 e.target.parentElement.className="";
+                let ulText=ul.innerHTML;
+                localStorage.setItem("newTodo", ulText)
             }}
-    // Need logic to check if a button is clicked and log that into local storage. Same as button
     }
 }); 
 
@@ -51,7 +53,7 @@ function makeItem(text){
     newButton.innerText="Remove From List";
     newLi.appendChild(newButton);
     newButton.setAttribute("class","newbutton");
-    
+    localStorage.setItem("li",newLi.innerHTML);
     return newLi;
    
     
@@ -62,10 +64,21 @@ let saved = localStorage.getItem("newTodo");
 if(saved){
     ul.innerHTML=saved;
 }else{
-    ul.innerHTML=ul
+    ul.innerHTML="";
 };
 
+let alreadyDone=document.querySelectorAll(".checkbox");
+console.log(alreadyDone);
 
+function crossout(){
+    for (let i=0; i<alreadyDone.length; i++){
+        let isChecked=alreadyDone[i].parentElement.getAttribute("class");
+        console.log(isChecked);
+        if(isChecked==="crossout"){
+            alreadyDone[i].checked=true;
+        }
+        
+    }
+}
 
-
-// Not able to remove items/keep checked items from local storage successfully
+crossout();
